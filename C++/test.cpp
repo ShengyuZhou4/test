@@ -1,26 +1,21 @@
 #include<bits/stdc++.h>
 using namespace std;
+long long a[200001];
+map<long long,long long> m;
 int main()
 {
-    int n,t;
-    cin>>n;
-    for(int i=n;i>=0;--i)
+    int n;
+    long long c;
+    long long ans=0;
+    cin>>n>>c;
+    for(int i=1;i<=n;i++)
     {
-        cin>>t;
-        if(t==0)
-            continue;
-        if(i!=n&&t>0)
-            cout<<'+';
-        if(t<0)
-            cout<<'-';
-        t=abs(t);
-        if((i>=1&&t!=1)||i==0)
-            cout<<t;
-        if(i>1)
-            cout<<"x^"<<i;
-        if(i==1)
-            cout<<'x';
-    }
-    cout<<'\n';
+        cin>>a[i];
+        ++m[a[i]];
+        a[i]-=c;
+    } 
+    for(int i=1;i<=n;++i)
+        ans+=m[a[i]];
+    cout<<ans<<'\n';
     return 0;
 }
