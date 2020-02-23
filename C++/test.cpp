@@ -1,51 +1,31 @@
 #include<bits/stdc++.h>
 using namespace std;
-int d,ans;
-vector<int> v;
-vector<char> c;
-void solve()
+int n,m,x,y;
+vector<vector<int> > v,ans;
+void solve(int a,int b,int c)
 {
-    if(c.size()==d-1)
-    {
-        int s=0,t=v[0];
-        for(int i=0;i<d-1;++i)
-        {
-            if(c[i]=='+')
-            {
-                s+=t;
-                t=v[i+1];
-            }
-            if(c[i]=='-')
-            {
-                s+=t;
-                t=-v[i+1];
-            }
-            if(c[i]=='*')
-                t*=v[i+1];
-        }
-        s+=t;
-        if(s==24)
-            ++ans;
+    if(ans[a][b]<=c||a<1||a>n||b<1||b>m)
         return;
-    }
-    c.push_back('+');
-    solve();
-    c.pop_back();
-    c.push_back('-');
-    solve();
-    c.pop_back();
-    c.push_back('*');
-    solve();
-    c.pop_back();
-    return;
+    ans[a][b]=c;
+    solve(a-1,b,c+(v[a][b]==v[a-1][b]?0:1));
+    solve(a+1,b,c+(v[a][b]==v[a+1][b]?0:1));
+    solve(a,b-1,c+(v[a][b]==v[a][b-1]?0:1));
+    solve(a,b+1,c+(v[a][b]==v[a][b+1]?0:1));
 }
 int main()
 {
-    cin>>d;
-    v.resize(d);
-    for(int i=0;i<d;++i)
-        cin>>v[i];
-    solve();
-    cout<<ans<<'\n';
+    cin>>n>>m>>x>>y;
+    v.resize(n+2,vector<int>(m+2));
+    ans.resize(n+2,vector<int>(m+2,INT_MAX));
+    for(int i=1;i<=n;++i)
+        for(int j=1;j<=m;++j)
+            cin>>v[i][j];
+    solve(x,y,0);
+    for(int i=1;i<=n;++i)
+    {
+        for(int j=1;j<=m;++j)
+            cout<<ans[i][j]<<' ';
+        cout<<'\n';
+    }
     return 0;
 }
