@@ -12,7 +12,7 @@ int main()
         if(a==0)
         {
             d.push_back(make_pair(b,c));
-            ans+=c;
+            ans+=b;
         }
         else
         {
@@ -35,7 +35,7 @@ int main()
                     ++i;
             }
             if(f)
-                ans+=c;
+                ans+=b;
         }
     }
     cout<<ans<<'\n';
