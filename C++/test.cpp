@@ -33,10 +33,7 @@ int main()
 {
 	int T=100;
 	while(T--)
-	{
 		sa();
-		cout<<fixed<<ans<<' '<<ans_e<<'\n';
-		Sleep(1000);
-	}
+	cout<<fixed<<ans<<' '<<ans_e<<'\n';
 	return 0;
 }
