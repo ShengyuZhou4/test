@@ -1,20 +1,42 @@
 #include<bits/stdc++.h>
+#include<Windows.h>
 using namespace std;
-int c[100005],e[1000005];
+const double delta=0.999,t_end=0.001;
+long double ans,ans_e;
+long double f(long double x)
+{
+	return 0.001*x*x*x*x-x*x+x;
+}
+void sa()
+{
+	srand(clock());
+	long double t=100,x=ans;
+	while(t>t_end)
+	{
+		long double x_temp=x+(rand()*2-RAND_MAX)*t;
+		long double de=f(x)-f(x_temp);
+		if(de>=0)
+		{
+			x=x_temp;
+			if(f(x)<=ans_e)
+			{
+				ans_e=f(x);
+				ans=x;
+			}
+		}
+		else if(exp(de/t)*RAND_MAX>rand())
+			x=x_temp;
+		t*=delta;
+	}
+}
 int main()
 {
-	int n;
-	unsigned long long s=0;
-	cin>>n;
-	for (int i=1;i<=n;i++)
-	cin>>c[i];
-	for (int i=1;i<=n;i++)
-	cin>>e[i];
-	for (int i=1;i<=n;i++)
+	int T=100;
+	while(T--)
 	{
-		s+=c[i]*e[i]*2006/10086;
-		s=s%907282877488;
+		sa();
+		cout<<fixed<<ans<<' '<<ans_e<<'\n';
+		Sleep(1000);
 	}
-	cout<<s<<endl;
 	return 0;
 }
