@@ -8,7 +8,7 @@ long double f(long double x)
 }
 void sa()
 {
-	srand(clock());
+	srand(time(0));
 	long double t=100,x=ans;
 	while(t>t_end)
 	{
