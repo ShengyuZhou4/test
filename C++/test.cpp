@@ -1,5 +1,4 @@
 #include<bits/stdc++.h>
-#include<Windows.h>
 using namespace std;
 const double delta=0.999,t_end=0.001;
 long double ans,ans_e;
