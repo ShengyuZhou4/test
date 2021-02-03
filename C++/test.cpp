@@ -4,7 +4,7 @@ const double delta=0.999,t_end=0.001;
 long double ans,ans_e;
 long double f(long double x)
 {
-	return 0.001*x*x*x*x-x*x+x;
+	return (x-4)*(x-4)+4;
 }
 void sa()
 {
