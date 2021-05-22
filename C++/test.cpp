@@ -1,38 +1,46 @@
 #include<bits/stdc++.h>
 using namespace std;
-const double delta=0.999,t_end=0.001;
-long double ans,ans_e;
-long double f(long double x)
+int n,m;
+vector<vector<bool> > v;
+vector<pair<int,int> > p;
+set<pair<int,int> > s;
+void dfs(int x,int y)
 {
-	return 0.001*x*x*x*x-x*x+x;
-}
-void sa()
-{
-	srand(time(0));
-	long double t=100,x=ans;
-	while(t>t_end)
+	if(s.find(make_pair(x,y))!=s.end())
+		return;
+	s.insert(make_pair(x,y));
+	p.push_back(make_pair(x,y));
+	if(x==n&&y==m)
 	{
-		long double x_temp=x+(rand()*2-RAND_MAX)*t;
-		long double de=f(x)-f(x_temp);
-		if(de>=0)
-		{
-			x=x_temp;
-			if(f(x)<=ans_e)
-			{
-				ans_e=f(x);
-				ans=x;
-			}
-		}
-		else if(exp(de/t)*RAND_MAX>rand())
-			x=x_temp;
-		t*=delta;
+		for(int i=0;i<p.size();++i)
+			cout<<'('<<p[i].first<<','<<p[i].second<<")\n";
+		cout<<"\n";
 	}
+	else
+	{
+		if(!v[x+1][y])
+			dfs(x+1,y);
+		if(!v[x-1][y])
+			dfs(x-1,y);
+		if(!v[x][y+1])
+			dfs(x,y+1);
+		if(!v[x][y-1])
+			dfs(x,y-1);
+	}
+	s.erase(make_pair(x,y));
+	p.pop_back();
+	return;
 }
 int main()
 {
-	int T=100;
-	while(T--)
-		sa();
-	cout<<fixed<<ans<<' '<<ans_e<<'\n';
+	cin>>n>>m;
+	v.resize(n+2,vector<bool>(m+2,true));
+	for(int t,i=1;i<=n;++i)
+		for(int j=1;j<=m;++j)
+		{
+			cin>>t;
+			v[i][j]=t;
+		}
+	dfs(1,1);
 	return 0;
 }
