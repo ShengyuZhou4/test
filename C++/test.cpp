@@ -1,77 +1,46 @@
 #include<bits/stdc++.h>
 using namespace std;
-long long n,k,q;
-vector<long long> a,p,aa,pp,temp;
-long long merge(long long l,long long m,long long r);
-long long rp(long long l,long long r)
-{
-	if(l==r)
-		return 0;
-	long long m=(l+r)/2;
-	long long ln=rp(l,m),rn=rp(m+1,r),mn=merge(l,m,r);
-	return ln+rn+mn;
-}
-long long merge(long long l,long long m,long long r)
-{
-	long long cnt=0,i,j;
-	for(i=l;i<=r;++i)
-		temp[i]=aa[i];
-	long long k=l;
-	for(i=l,j=m+1;i<=m&&j<=r;++k)
-	{
-		if(temp[i]>temp[j])
-		{
-			cnt+=m-i+1;
-			aa[k]=temp[j];
-			++j;
-		}
-		else
-		{
-			aa[k]=temp[i];
-			++i;
-		}
-	}
-	if(i>m)
-		while(j<=r)
-		{
-			aa[k]=temp[j];
-			++j;
-			++k;
-		}
-	else
-		while(i<=m)
-		{
-			aa[k]=temp[i];
-			++i;
-			++k;
-		}
-	return cnt;
-}
 int main()
 {
-	cin>>n>>k>>q;
-	a.resize(n+1);
-	p.resize(k+1);
-	pp.resize(k+1);
-	for(long long i=1;i<=k;++i)
+	vector<pair<pair<long long,long long>,long long> > n,e;
+	long long N;
+	cin>>N;
+	vector<long long> ans(N+1,LLONG_MAX);
+	for(long long x,y,i=1;i<=N;++i)
 	{
-		p[i]=i;
-		pp[p[i]]=i;
+		char c;
+		cin>>c;
+		cin>>x>>y;
+		if(c=='N')
+			n.push_back(make_pair(make_pair(x,y),i));
+		else
+			e.push_back(make_pair(make_pair(x,y),i));
 	}
-	for(long long i=1;i<=n;++i)
-		cin>>a[i];
-	temp.resize(n+1);
-	while(q--)
+	for(long long i=0;i<n.size();++i)
 	{
-		long long j;
-		cin>>j;
-		swap(p[j],p[j+1]);
-		pp[p[j]]=j;
-		pp[p[j+1]]=j+1;
-		aa=a;
-		for(long long i=1;i<=n;++i)
-			aa[i]=pp[aa[i]];
-		cout<<rp(1,n)<<'\n';
+		for(long long j=0;j<e.size())
+			if(e[j].first.second-n[i].first.second+e[j].first.first>n[i].first.first)
+				ans[n[i].second]=min(ans[n[i].second],e[j].first.second-n[i].first.second);
+		for(long long j=0;j<n.size();++j)
+		{
+			if(i==j)
+				continue;
+			if(n[i].first.first==n[j].first.first&&n[i].first.second<n[j].first.second)
+				ans[n[i].second]=min(ans[n[i].second],n[j].first.second-n[i].first.second);
+		}
 	}
+	// for(long long i=0;i<e.size();++i)
+	// {
+	// 	for(long long j=0;j<n.size())
+	// 		if(n[j].first.second-n[i].first.second+e[j].first.first>n[i].first.first)
+	// 			ans[n[i].second]=min(ans[n[i].second],e[j].first.second-n[i].first.second);
+	// 	for(long long j=0;j<n.size();++j)
+	// 	{
+	// 		if(i==j)
+	// 			continue;
+	// 		if(n[i].first.first==n[j].first.first&&n[i].first.second<n[j].first.second)
+	// 			ans[n[i].second]=min(ans[n[i].second],n[j].first.second-n[i].first.second);
+	// 	}
+	// }
 	return 0;
 }
